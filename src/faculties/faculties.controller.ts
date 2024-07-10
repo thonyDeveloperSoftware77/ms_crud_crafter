@@ -1,5 +1,5 @@
 // src/faculties/faculties.controller.ts
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put } from "@nestjs/common";
 import { FacultiesService } from './faculties.service';
 
 @Controller('faculties')
@@ -12,7 +12,22 @@ export class FacultiesController {
   }
 
   @Post()
-  async createFaculty(@Body() faculty) {
-    return this.facultiesService.createFaculty(faculty);
+  async createFaculty (
+    @Body() name:string
+  ) {
+    return this.facultiesService.createFaculty(
+      name
+    );
+  }
+
+  @Put()
+  async updateFaculty(
+    @Body() id: number,
+    @Body() name: string
+  ) {
+    return this.facultiesService.updateFaculty(
+      id,
+      name
+    );
   }
 }
