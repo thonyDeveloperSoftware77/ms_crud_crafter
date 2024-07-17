@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { SkillsService } from "./skills.service";
+import { SkillsModel } from "./skills.model";
 
 @Controller('skills')
 export class SkillsController {
@@ -12,21 +13,31 @@ export class SkillsController {
 
   @Post()
   async createSkill(
-    @Body() name: string
+    @Body() data: SkillsModel
   ) {
     return this.skillsService.createSkill(
-      name
+      data
     );
   }
 
   @Put()
   async updateSkill(
-    @Body() id: number,
-    @Body() name: string
+    @Body('id') id: number,
+    @Body('name') name: string
   ) {
     return this.skillsService.updateSkill(
       id,
       name
+    );
+  }
+
+
+  @Delete()
+  async deleteSkill(
+    @Body('id') id: number
+  ) {
+    return this.skillsService.deleteSkill(
+      id
     );
   }
 }

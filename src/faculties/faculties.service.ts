@@ -21,22 +21,15 @@ export class FacultiesService {
     }
 
 
-    return data.map((faculty: any) => ({
-      ...faculty,
-      name: JSON.parse(faculty.name).name
-    })) as FacultiesModel[];
+    return data
   }
 
 
-  async createFaculty(name: string): Promise<FacultiesModel> {
-    const facultyData: FacultiesModel = {
-      name: name,
-      id: undefined // Para cumplir con la interfaz FacultiesModel
-    };
+  async createFaculty(facultyData: FacultiesModel): Promise<FacultiesModel> {
 
     const { data, error } = await this.supabaseClient
       .from('faculties')
-      .insert([{ name: facultyData.name }])
+      .insert([facultyData])
       .select();
 
     if (error) {
@@ -48,17 +41,14 @@ export class FacultiesService {
       throw new Error('No se pudo insertar el registro');
     }
 
-    return {
-      ...data[0],
-      name: JSON.parse(data[0].name).name
-    }as FacultiesModel;
+    return data[0]
   }
 
 
   async updateFaculty(id: number, name: string): Promise<FacultiesModel> {
     const { data, error } = await this.supabaseClient
       .from('faculties')
-      .update({ name })
+      .update({ name: name })
       .eq('id', id)
       .select();
 
@@ -67,9 +57,20 @@ export class FacultiesService {
     }
 
     // Asegura que los datos estén deserializados correctamente
-    return {
-      ...data[0],
-      name: JSON.parse(data[0].name).name
-    } as FacultiesModel;
+    return data[0]
+  }
+
+  async deleteFaculty(id: number): Promise<FacultiesModel> {
+    const { data, error } = await this.supabaseClient
+      .from('faculties')
+      .delete()
+      .eq('id', id)
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data[0]
   }
 }

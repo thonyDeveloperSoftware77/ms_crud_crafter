@@ -1,6 +1,7 @@
 // src/faculties/faculties.controller.ts
-import { Controller, Get, Post, Body, Put } from "@nestjs/common";
+import { Controller, Get, Post, Body, Put, Delete } from "@nestjs/common";
 import { FacultiesService } from './faculties.service';
+import { FacultiesModel } from "./faculties.model";
 
 @Controller('faculties')
 export class FacultiesController {
@@ -13,21 +14,32 @@ export class FacultiesController {
 
   @Post()
   async createFaculty (
-    @Body() name:string
+    @Body() data:FacultiesModel
   ) {
     return this.facultiesService.createFaculty(
-      name
+      data
     );
   }
 
   @Put()
   async updateFaculty(
-    @Body() id: number,
-    @Body() name: string
+    @Body('id') id: number,
+    @Body('name') name: string
   ) {
     return this.facultiesService.updateFaculty(
       id,
       name
     );
   }
+
+  @Delete()
+  async deleteFaculty(
+    @Body('id') id: number
+  ) {
+    return this.facultiesService.deleteFaculty(
+      id
+    );
+  }
+
+
 }

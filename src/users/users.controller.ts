@@ -9,4 +9,9 @@ export class UsersController {
   async getAllUsers() {
     return this.usersService.getAllUsers();
   }
+
+  @Get('/:uid')
+  async getUserByUid(uid: string) {
+    return this.usersService.getUserByUid(uid);
+  }
 }

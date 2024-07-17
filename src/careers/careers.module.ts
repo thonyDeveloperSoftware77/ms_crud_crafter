@@ -6,7 +6,7 @@ import { CareersService } from "./careers.service";
 
 @Module({
   imports: [ConfigModule],
+  providers: [SupabaseService, CareersService],
   controllers: [CareersController],
-  providers: [SupabaseService, CareersService]
 })
 export class CareersModule {}

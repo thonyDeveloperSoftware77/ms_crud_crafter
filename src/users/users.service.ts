@@ -18,6 +18,24 @@ export class UsersService {
       throw error;
     }
 
-    return data;
+    // Filtrar usuarios con rol 'admin'
+    const filteredData = data.filter(user => user.role !== 'admin');
+
+    return filteredData;
   }
+
+
+  async getUserByUid(uid: string) {
+    const { data, error } = await this.supabaseClient
+      .from('users')
+      .select('*')
+      .eq('uid', uid);
+
+    if (error) {
+      throw error;
+    }
+
+    return data[0];
+  }
+
 }

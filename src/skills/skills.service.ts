@@ -20,48 +20,53 @@ export class SkillsService {
       throw error;
     }
 
-    return data.map((skill: any) => ({
-      ...skill,
-      name: JSON.parse(skill.name).name
-    })) as SkillsModel[];
+    return data
   }
 
 
-  async createSkill(name: string) : Promise<SkillsModel>{
-    const skillData: SkillsModel = {
-      name: name
-    };
+  async createSkill(skillData: SkillsModel) : Promise<SkillsModel>{
 
     const { data, error } = await this.supabaseClient
       .from('skills')
-      .insert([{ name: skillData.name }])
+      .insert([skillData])
       .select();
 
     if (error) {
       throw error;
     }
 
-    return {
-      ...data[0],
-      name: JSON.parse(data[0].name).name
-    } as SkillsModel;
+    return data
   }
 
-  async updateSkill(id: number, name: string) : Promise<SkillsModel> {
+  async updateSkill(_id: number, _name: string) : Promise<SkillsModel> {
+    console.log(_id,_name)
+
     const { data, error } = await this.supabaseClient
       .from('skills')
-      .update({ name })
-      .eq('id', id)
+      .update({ name: _name })
+      .eq('id', _id)
+      .select();
+
+    if (error) {
+      console.log(error)
+      throw error;
+    }
+
+    return data;
+  }
+
+  async deleteSkill(_id: number) : Promise<SkillsModel> {
+    const { data, error } = await this.supabaseClient
+      .from('skills')
+      .delete()
+      .eq('id', _id)
       .select();
 
     if (error) {
       throw error;
     }
 
-    return {
-      ...data[0],
-      name: JSON.parse(data[0].name).name
-    } as SkillsModel;
+    return data;
   }
 
 

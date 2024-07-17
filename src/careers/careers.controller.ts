@@ -16,13 +16,15 @@ export class CareersController {
     return this.careersService.createCareer(career);
   }
 
-  @Put(':id')
-  async updateCareer(@Param('id') id: number, @Body() career: Partial<CareersModel>): Promise<CareersModel> {
+  @Put()
+  async updateCareer(
+    @Body('id') id: number,
+    @Body() career: Partial<CareersModel>): Promise<CareersModel> {
     return this.careersService.updateCareer(id, career);
   }
 
-  @Delete(':id')
-  async deleteCareer(@Param('id') id: number): Promise<void> {
+  @Delete()
+  async deleteCareer(@Body('id') id: number): Promise<void> {
     return this.careersService.deleteCareer(id);
   }
 }
